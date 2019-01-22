@@ -1,0 +1,22 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class RoadTrigger : MonoBehaviour
+{
+
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.tag == Constants.Tag.PLAYERBULLET)
+        {
+            GameObject clone = PoolsManager.Instance.RetrieveExplosionFromPool();
+            clone.transform.position = col.transform.position;
+            clone.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
+            clone.transform.rotation = Quaternion.identity;
+            AudioManager.Instance.PlayExplosionClip();
+            UIInGameManager.Instance.SetActiveText(0);
+            col.gameObject.SetActive(false);
+            Safezone.isEnemyAttack = true;
+        }
+    }
+}
